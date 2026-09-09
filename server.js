@@ -278,9 +278,8 @@ async function scrapeListing(targetUrl) {
     );
 
     uploadResults.forEach(r => { if (!r.failed) data.images[r.index] = r.url; });
-    // Hero = first successfully uploaded image
-    const firstSuccess = uploadResults.find(r => !r.failed);
-    if (firstSuccess) data.hero_image = firstSuccess.url;
+    // Skip hero_image — og:image is Airbnb's branding placeholder, not the actual listing hero
+    data.hero_image = null;
   }
 
   return { success: true, data };
@@ -464,10 +463,9 @@ function getPreviewHtml(targetUrl, result) {
   .container { max-width: 760px; margin: 0 auto; padding: 32px 20px; }
 
   /* Hero image */
-  .hero-wrap { position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 32px; aspect-ratio: 16/9; background: #ddd; }
-  .hero-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .hero-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,.6)); padding: 40px 24px 20px; }
-  .hero-title { color: #fff; font-size: 22px; font-weight: 700; text-shadow: 0 1px 4px rgba(0,0,0,.4); }
+  .listing-header { margin-bottom: 24px; }
+  .listing-title { font-size: 26px; font-weight: 700; color: #222; line-height: 1.3; }
+  .listing-location { font-size: 15px; color: #717171; margin-top: 6px; }
 
   /* Stats row */
   .stats { display: flex; gap: 0; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,.07); margin-bottom: 28px; }
@@ -538,11 +536,9 @@ function getPreviewHtml(targetUrl, result) {
     <div class="error-desc">${esc(error)}</div>
   </div>` : `
 
-  <div class="hero-wrap">
-    <img class="hero-img" src="${esc(d.hero_image || d.images?.[0] || '')}" alt="${esc(d.title)}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 60%22><rect fill=%22%23ddd%22 width=%22100%22 height=%2260%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2214%22>No image</text></svg>'">
-    <div class="hero-overlay">
-      <div class="hero-title">${esc(d.title)}</div>
-    </div>
+  <div class="listing-header">
+    <div class="listing-title">${esc(d.title)}</div>
+    ${d.location ? `<div class="listing-location">${esc(d.location)}</div>` : ''}
   </div>
 
   <div class="stats">
