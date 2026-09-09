@@ -278,8 +278,8 @@ async function scrapeListing(targetUrl) {
     );
 
     uploadResults.forEach(r => { if (!r.failed) data.images[r.index] = r.url; });
-    // Skip hero_image — og:image is Airbnb's branding placeholder, not the actual listing hero
-    data.hero_image = null;
+    // Hero = first real listing image (images[0] after blocked placeholder过滤)
+    data.hero_image = data.images[0] || null;
   }
 
   return { success: true, data };
@@ -466,6 +466,8 @@ function getPreviewHtml(targetUrl, result) {
   .listing-header { margin-bottom: 24px; }
   .listing-title { font-size: 26px; font-weight: 700; color: #222; line-height: 1.3; }
   .listing-location { font-size: 15px; color: #717171; margin-top: 6px; }
+  .hero-wrap { position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 24px; aspect-ratio: 16/9; background: #ddd; }
+  .hero-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* Stats row */
   .stats { display: flex; gap: 0; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,.07); margin-bottom: 28px; }
@@ -535,6 +537,11 @@ function getPreviewHtml(targetUrl, result) {
     <div class="error-title">Scraping Failed</div>
     <div class="error-desc">${esc(error)}</div>
   </div>` : `
+
+  ${d.hero_image ? `
+  <div class="hero-wrap">
+    <img class="hero-img" src="${esc(d.hero_image)}" alt="${esc(d.title)}" onerror="this.style.display='none'">
+  </div>` : ''}
 
   <div class="listing-header">
     <div class="listing-title">${esc(d.title)}</div>
