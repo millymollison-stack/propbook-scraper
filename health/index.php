@@ -1,8 +1,8 @@
 <?php
 /**
- * /scraper/health — proxy health check to Render backend
+ * /scraper/health — proxy health check to Render v26 backend
  */
-$SCRAPER_BACKEND = 'https://airbnb-scraper-foj1.onrender.com';
+$SCRAPER_BACKEND = 'https://propbook-scraper.onrender.com';
 
 $backendUrl = $SCRAPER_BACKEND . '/health';
 

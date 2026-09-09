@@ -1,9 +1,9 @@
 <?php
 /**
- * /scraper/scrape — proxy to Render backend
+ * /scraper/scrape — proxy to Render v26 backend
  * GET ?url=https://www.airbnb.com/rooms/XXXXX
  */
-$SCRAPER_BACKEND = 'https://airbnb-scraper-foj1.onrender.com';
+$SCRAPER_BACKEND = 'https://propbook-scraper.onrender.com';
 
 $url = $_GET['url'] ?? null;
 if (!$url) {
