@@ -1,0 +1,19 @@
+{
+  "name": "airbnb-scraper",
+  "version": "1.0.0",
+  "description": "Production Airbnb scraper using Playwright",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "install-browser": "npx playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0",
+    "playwright-extra": "^4.3.6",
+    "playwright-extra-plugin-stealth": "^0.0.1",
+    "puppeteer": "^24.40.0",
+    "puppeteer-core": "^24.40.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}

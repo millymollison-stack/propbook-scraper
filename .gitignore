@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.py
+test-*.mjs
+test-*.js
+playwright-*.mjs
+server-v14-backup.js
